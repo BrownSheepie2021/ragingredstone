@@ -4,8 +4,8 @@ import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -30,7 +30,7 @@ public final class Ragingredstone extends JavaPlugin implements Listener {
         playerEffects.put("LordHorizon", new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.SPEED});
 //        playerEffects.put("chickyNuggles", new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.INVISIBILITY});
         playerEffects.put("C4t_L1feplayz", new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.SLOW_FALLING});
-
+        playerEffects.put("Shi_Khan", new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.FAST_DIGGING});
         // Register events
         getServer().getPluginManager().registerEvents(this, this);
 
@@ -58,10 +58,10 @@ public final class Ragingredstone extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event) {
-        // Execute /start command for the player who died
-        Player deadPlayer = event.getEntity();
-        executeStartCommand(deadPlayer);
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        // Execute /start command for the respawning player
+        Player respawnedPlayer = event.getPlayer();
+        executeStartCommand(respawnedPlayer);
     }
 
     private void executeStartCommandForAllPlayers() {
@@ -72,7 +72,7 @@ public final class Ragingredstone extends JavaPlugin implements Listener {
     }
 
     private void executeStartCommand(Player player) {
-        // Apply both regeneration and speed effects for each player
+        // Apply both regeneration and speed effects for each player with level 0
         // Check if the player is online before applying the effects
         // If the player is online, apply the effects; otherwise, do nothing
         for (Map.Entry<String, PotionEffectType[]> entry : playerEffects.entrySet()) {
@@ -98,7 +98,7 @@ public final class Ragingredstone extends JavaPlugin implements Listener {
 
         @Override
         public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-            // Apply both effects for specified players
+            // Apply both effects for specified players with level 0
             // Check if each player is online before applying the effects
             // If the player is online, apply the effects; otherwise, do nothing
             for (Map.Entry<String, PotionEffectType[]> entry : plugin.playerEffects.entrySet()) {
@@ -111,6 +111,7 @@ public final class Ragingredstone extends JavaPlugin implements Listener {
                     for (PotionEffectType effectType : effectTypes) {
                         player.addPotionEffect(new PotionEffect(effectType, 2147483647, 0));
                     }
+                    player.sendMessage("Effects applied!");
                 } else {
                     // pass
                 }
