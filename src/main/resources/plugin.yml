@@ -1,0 +1,8 @@
+name: ragingredstone
+version: '1.0'
+main: me.sheepie.ragingredstone.Ragingredstone
+api-version: '1.19'
+commands:
+  start:
+    description: Start command
+    usage: /start
