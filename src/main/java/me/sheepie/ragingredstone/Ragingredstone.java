@@ -25,12 +25,13 @@ public final class Ragingredstone extends JavaPlugin implements Listener {
 
         // Set PotionEffectTypes for each player
         playerEffects.put("SheepieGamer20", new PotionEffectType[]{PotionEffectType.NIGHT_VISION, PotionEffectType.WATER_BREATHING});
-//        playerEffects.put("KookieArmy64", new PotionEffectType[]{PotionEffectType.INCREASE_DAMAGE, PotionEffectType.HEALTH_BOOST});
-//        playerEffects.put("Chesterreborn322", new PotionEffectType[]{PotionEffectType.JUMP, PotionEffectType.WATER_BREATHING});
-        playerEffects.put("LordHorizon", new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.SPEED});
-//        playerEffects.put("chickyNuggles", new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.INVISIBILITY});
+//        playerEffects.put("KookieArmy64", new PotionEffectType[]{PotionEffectType.EFFECT, PotionEffectType.EFFECT});
+        playerEffects.put("Chesterreborn322", new PotionEffectType[]{PotionEffectType.JUMP, PotionEffectType.WATER_BREATHING});
+        playerEffects.put("LordHorizon", new PotionEffectType[]{PotionEffectType.DAMAGE_RESISTANCE, PotionEffectType.REGENERATION});
+        playerEffects.put("chickyNuggles", new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.INCREASE_DAMAGE});
         playerEffects.put("C4t_L1feplayz", new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.SLOW_FALLING});
         playerEffects.put("Shi_Khan", new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.FAST_DIGGING});
+//        playerEffects.put("Airone_27", new PotionEffectType[]{PotionEffectType.EFFECT, PotionEffectType.EFFECT});
         // Register events
         getServer().getPluginManager().registerEvents(this, this);
 
@@ -38,7 +39,7 @@ public final class Ragingredstone extends JavaPlugin implements Listener {
         getCommand("start").setExecutor(new StartCommandExecutor(this));
 
         // Schedule the /start command to run every minute (1200 ticks)
-        getServer().getScheduler().runTaskTimer(this, () -> executeStartCommandForAllPlayers(), 0, 1200);
+        getServer().getScheduler().runTaskTimer(this, () -> executeStartCommandForAllPlayers(), 0, 100);
 
         // Plugin startup logic
         getLogger().info("Enabled successfully.");
