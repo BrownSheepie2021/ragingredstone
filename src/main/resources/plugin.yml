@@ -1,5 +1,5 @@
 name: ragingredstone
-version: '1.0'
+version: '1.1'
 main: me.sheepie.ragingredstone.Ragingredstone
 api-version: '1.19'
 commands:
