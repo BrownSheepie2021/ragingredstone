@@ -1,5 +1,6 @@
 package me.sheepie.ragingredstone;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,7 +27,6 @@ public final class Ragingredstone extends JavaPlugin implements Listener {
 
         // UUIDs
         String sheepieUUID = "0937b604c1ce446a96ff818d752a19f6";
-//        String kookieUUID = "fa5b47a2c5354ce28eae95a37da47a6f";
         String chesterUUID = "bee839c056254816bc71c3eca1600372";
         String horizonUUID = "e7218140bc8645ec9cd14ef67b711adf";
         String chickyUUID = "01f464e191684794b6afc27479b60ac1";
@@ -36,20 +36,20 @@ public final class Ragingredstone extends JavaPlugin implements Listener {
 
         // Set PotionEffectTypes for each player
         playerEffects.put(UUID.fromString(sheepieUUID), new PotionEffectType[]{PotionEffectType.NIGHT_VISION, PotionEffectType.WATER_BREATHING});
-        //playerEffects.put(UUID.fromString(kookieUUID), new PotionEffectType[]{PotionEffectType.EFFECT, PotionEffectType.EFFECT});
         playerEffects.put(UUID.fromString(chesterUUID), new PotionEffectType[]{PotionEffectType.INVISIBILITY, PotionEffectType.DAMAGE_RESISTANCE});
         playerEffects.put(UUID.fromString(horizonUUID), new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.SPEED});
         playerEffects.put(UUID.fromString(chickyUUID), new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.INCREASE_DAMAGE});
         playerEffects.put(UUID.fromString(c4t_jubbalic_UUID), new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.SLOW_FALLING});
         playerEffects.put(UUID.fromString(khanUUID), new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.INVISIBILITY});
         playerEffects.put(UUID.fromString(aironeUUID), new PotionEffectType[]{PotionEffectType.REGENERATION, PotionEffectType.FAST_DIGGING});
+
         // Register events
         getServer().getPluginManager().registerEvents(this, this);
 
         // Register the /start command with its executor
         getCommand("start").setExecutor(new StartCommandExecutor(this));
 
-        // Schedule the /start command to run every minute (1200 ticks)
+        // Schedule the /start command to run every 5 seconds (100 ticks)
         getServer().getScheduler().runTaskTimer(this, () -> executeStartCommandForAllPlayers(), 0, 100);
 
         // Plugin startup logic
@@ -110,6 +110,11 @@ public final class Ragingredstone extends JavaPlugin implements Listener {
 
         @Override
         public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+            if (!plugin.isEnabled()) {
+                sender.sendMessage("Plugin is disabled.");
+                return true;
+            }
+
             // Apply both effects for specified players with level 0
             // Check if each player is online before applying the effects
             // If the player is online, apply the effects; otherwise, do nothing
