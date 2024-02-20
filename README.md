@@ -1,3 +1,5 @@
 # plugin for private SMP
 
 ### if you dont know what your looking at just copy all my code and ask chatgpt to break down the code for you
+
+for people who don't know how to read repo's, the code is in ragingredstone/src/main/java/me/sheepie/ragingredstone/Ragingredstone.java
