@@ -13,12 +13,12 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
+// import java.util.UUID;
 
 public final class Ragingredstone extends JavaPlugin implements Listener {
 
     // Map to store players and their corresponding PotionEffectTypes
-    private Map<UUID, PotionEffectType[]> playerEffects;
+    private Map<String, PotionEffectType[]> playerEffects;
 
     @Override
     public void onEnable() {
@@ -26,22 +26,24 @@ public final class Ragingredstone extends JavaPlugin implements Listener {
         playerEffects = new HashMap<>();
 
         // UUIDs
-        String sheepieUUID = "0937b604c1ce446a96ff818d752a19f6";
-        String chesterUUID = "bee839c056254816bc71c3eca1600372";
-        String horizonUUID = "e7218140bc8645ec9cd14ef67b711adf";
-        String chickyUUID = "01f464e191684794b6afc27479b60ac1";
-        String c4t_jubbalic_UUID = "5db1af5052724c039225a556cca0f091";
-        String khanUUID = "14c4df5dc1184f5b86da935527414c59";
-        String aironeUUID = "0741ae663c344a82bca14c396014648b";
+        // String sheepieUUID = "0937b604c1ce446a96ff818d752a19f6";
+        // String chesterUUID = "bee839c056254816bc71c3eca1600372";
+        // String horizonUUID = "e7218140bc8645ec9cd14ef67b711adf";
+        // String chickyUUID = "01f464e191684794b6afc27479b60ac1";
+        // String c4t_jubbalic_UUID = "5db1af5052724c039225a556cca0f091";
+        // String khanUUID = "14c4df5dc1184f5b86da935527414c59";
+        // String aironeUUID = "0741ae663c344a82bca14c396014648b";
 
         // Set PotionEffectTypes for each player
-        playerEffects.put(UUID.fromString(sheepieUUID), new PotionEffectType[]{PotionEffectType.NIGHT_VISION, PotionEffectType.WATER_BREATHING});
-        playerEffects.put(UUID.fromString(chesterUUID), new PotionEffectType[]{PotionEffectType.INVISIBILITY, PotionEffectType.DAMAGE_RESISTANCE});
-        playerEffects.put(UUID.fromString(horizonUUID), new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.SPEED});
-        playerEffects.put(UUID.fromString(chickyUUID), new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.INCREASE_DAMAGE});
-        playerEffects.put(UUID.fromString(c4t_jubbalic_UUID), new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.SLOW_FALLING});
-        playerEffects.put(UUID.fromString(khanUUID), new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.INVISIBILITY});
-        playerEffects.put(UUID.fromString(aironeUUID), new PotionEffectType[]{PotionEffectType.REGENERATION, PotionEffectType.FAST_DIGGING});
+        playerEffects.put("KookieArmy64", new PotionEffectType[]{PotionEffectType.REGENERATION, PotionEffectType.WATER_BREATHING});
+        playerEffects.put("SheepieGamer20", new PotionEffectType[]{PotionEffectType.NIGHT_VISION, PotionEffectType.WATER_BREATHING});
+        playerEffects.put("Chesterreborn322", new PotionEffectType[]{PotionEffectType.INVISIBILITY, PotionEffectType.NIGHT_VISION});
+        playerEffects.put("LordHorizon", new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.SATURATION});
+        playerEffects.put("t3rmite", new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.INCREASE_DAMAGE});
+        playerEffects.put("Jubbalicous", new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.SLOW_FALLING});
+        playerEffects.put("Shi_Khan", new PotionEffectType[]{PotionEffectType.FIRE_RESISTANCE, PotionEffectType.INVISIBILITY});
+        playerEffects.put("Airone27", new PotionEffectType[]{PotionEffectType.REGENERATION, PotionEffectType.FAST_DIGGING});
+        playerEffects.put("RogueBread", new PotionEffectType[]{PotionEffectType.INVISIBILITY, PotionEffectType.SLOW_FALLING});
 
         // Register events
         getServer().getPluginManager().registerEvents(this, this);
@@ -72,26 +74,26 @@ public final class Ragingredstone extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         // Execute /start command for the respawning player
-        Player respawnedPlayer = event.getPlayer();
-        executeStartCommand(respawnedPlayer);
+        executeStartCommandForAllPlayers();
     }
 
     private void executeStartCommandForAllPlayers() {
         // Execute /start command for all online players
-        for (Player player : getServer().getOnlinePlayers()) {
-            executeStartCommand(player);
-        }
+//        for (Player player : getServer().getOnlinePlayers()) {
+//            executeStartCommand(player);
+//        }
+        Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "start");
     }
 
     private void executeStartCommand(Player player) {
         // Apply both regeneration and speed effects for each player with level 0
         // Check if the player is online before applying the effects
         // If the player is online, apply the effects; otherwise, do nothing
-        for (Map.Entry<UUID, PotionEffectType[]> entry : playerEffects.entrySet()) {
-            UUID playerName = entry.getKey();
+        for (Map.Entry<String, PotionEffectType[]> entry : playerEffects.entrySet()) {
+            String playerName = entry.getKey();
             PotionEffectType[] effectTypes = entry.getValue();
 
-            if (player.getName().equals(playerName)) {
+            if (player.getUniqueId().equals(playerName)) {
                 for (PotionEffectType effectType : effectTypes) {
                     player.addPotionEffect(new PotionEffect(effectType, 2147483647, 0));
                 }
@@ -118,8 +120,8 @@ public final class Ragingredstone extends JavaPlugin implements Listener {
             // Apply both effects for specified players with level 0
             // Check if each player is online before applying the effects
             // If the player is online, apply the effects; otherwise, do nothing
-            for (Map.Entry<UUID, PotionEffectType[]> entry : plugin.playerEffects.entrySet()) {
-                UUID playerName = entry.getKey();
+            for (Map.Entry<String, PotionEffectType[]> entry : plugin.playerEffects.entrySet()) {
+                String playerName = entry.getKey();
                 PotionEffectType[] effectTypes = entry.getValue();
 
                 Player player = sender.getServer().getPlayer(playerName);
@@ -128,7 +130,7 @@ public final class Ragingredstone extends JavaPlugin implements Listener {
                     for (PotionEffectType effectType : effectTypes) {
                         player.addPotionEffect(new PotionEffect(effectType, 2147483647, 0));
                     }
-                    player.sendMessage("Effects applied!");
+//                    player.sendMessage("Effects applied!");
                 } else {
                     // pass
                 }
